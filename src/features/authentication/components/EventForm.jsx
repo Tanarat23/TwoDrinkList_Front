@@ -13,7 +13,6 @@ import usePost from '../../../hooks/usePost';
 import postApi from '../../../apis/post';
 
 const initialInput = {
-  // eventName: '',
   locationId: '',
   dueDate: '',
   description: '',
@@ -37,25 +36,28 @@ export default function EventForm() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchLocation = async () => {
+    const fetchData = async () => {
       try {
-        const resL = await locationApi.getAllLocation();
-        const resC = await categoryApi.getAllCategory();
-        // console.log(res);
-        setLocation(resL.data.locations);
-        setCategory(resC.data.categorys);
+        // fetch All Location from API
+        const resLocation = await locationApi.getAllLocation();
+        // fetch All Category from API
+        const resCategory = await categoryApi.getAllCategory();
+        setLocation(resLocation.data.locations);
+        setCategory(resCategory.data.categorys);
       } catch (err) {
         console.log(err);
       }
     };
-    fetchLocation();
+    fetchData();
   }, []);
 
   const handleSubmitForm = async (e) => {
     try {
       e.preventDefault();
+      // set date to ISO 8601.
       input.dueDate = input.dueDate + ':00.000Z';
       console.log(input);
+
       const error = validateEvent(input);
       if (error) {
         return setInputError(error);
@@ -66,8 +68,15 @@ export default function EventForm() {
       lastValue.locationId = +lastValue.locationId;
       lastValue.joinLimit = +lastValue.joinLimit;
       lastValue.categoryId = +lastValue.categoryId;
-      await postApi.createEvent(input);
+      await postApi.createEvent(lastValue);
 
+      // const formData = new FormData();
+      // for (const key in lastValue) {
+      //   console.log(key, lastValue[key]);
+      //   formData.append(key, lastValue[key]);
+      // }
+
+      // await postApi.createEvent(formData);
       toast.success('Create event success');
       navigate('/');
     } catch (err) {
@@ -140,12 +149,12 @@ export default function EventForm() {
               name='categoryId'
               onChange={handleChangeInput}
               className={`w-full rounded-full focus:outline-none focus:ring-2 bg-[#253239] border  px-2 py-2 border-gray-300 focus:border-[#1CD760] focus:ring-[#1CD760]
-              ${
-                inputError.categoryId
-                  ? 'border-red-500 focus:ring-red-300'
-                  : 'border-gray-300 focus:border-[#1CD760] focus:ring-[#1CD760]'
-              }
-              `}
+                ${
+                  inputError.categoryId
+                    ? 'border-red-500 focus:ring-red-300'
+                    : 'border-gray-300 focus:border-[#1CD760] focus:ring-[#1CD760]'
+                }
+                `}
             >
               <option>What you drink</option>
               {category.map((place) => (
@@ -157,6 +166,16 @@ export default function EventForm() {
             {inputError.categoryId ? (
               <small className='text-red-500'>{inputError.categoryId}</small>
             ) : null}
+          </div>
+          <br />
+          <div className='w-full text-[#B3B3B3]'>
+            <input
+              type='file'
+              name='image'
+              onChange={handleChangeInput}
+              className='block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-[#1CD760]  '
+            />
+            {input.image && <p>{input.image.name}</p>}
           </div>
           <br />
           <div className='w-full'>

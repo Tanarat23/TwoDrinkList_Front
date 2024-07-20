@@ -7,6 +7,9 @@ import MainContainer from '../layouts/MainContainer';
 import ProfilePage from '../pages/ProfilePage';
 import EventPage from '../pages/EventPage';
 import ProtectedRoute from '../features/authentication/components/ProtectRoute';
+import EditPage from '../pages/EditPage';
+import EditEventPage from '../pages/EditEventPage';
+import EditProfile from '../pages/EditProfile';
 
 const router = createBrowserRouter([
   {
@@ -29,6 +32,14 @@ const router = createBrowserRouter([
         path: '/event',
         element: <EventPage />,
       },
+      {
+        path: '/edit',
+        element: <EditPage />,
+      },
+      {
+        path: '/editProfile',
+        element: <EditProfile />,
+      },
     ],
   },
   {
@@ -38,6 +49,10 @@ const router = createBrowserRouter([
   {
     path: '/login',
     element: <LoginPage />,
+  },
+  {
+    path: '/editEvent/:eventId',
+    element: <EditEventPage />,
   },
 ]);
 

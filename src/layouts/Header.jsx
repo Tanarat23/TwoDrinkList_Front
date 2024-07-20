@@ -15,7 +15,8 @@ export default function Header() {
   return (
     <header className=' bg-[#000000] shadow px-4 items-center p-3'>
       <div className='justify-self-start flex flex-row justify-between items-center'>
-        <Link to='/'>
+        <Link to='/' className='flex '>
+          <h1 className='text-[#FFFFFF] text-5xl '>🍻</h1>
           <h1 className='text-[#FFFFFF] text-2xl font-bold italic'>
             TWO DRINK LIST
           </h1>

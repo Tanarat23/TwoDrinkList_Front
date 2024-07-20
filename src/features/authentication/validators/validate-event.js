@@ -13,10 +13,10 @@ const eventSchema = Joi.object({
   //   .required()
   //   .trim()
   //   .messages({ 'string.empty': 'Event name is required' }),
-  locationId: Joi.string()
+  locationId: Joi.number()
     .required()
-    .trim()
-    .pattern(/^[0-9]{1,}$/)
+    // .trim()
+    // .pattern(/^[0-9]{1,}$/)
     .messages({
       'string.empty': 'Location is required',
     }),
@@ -28,9 +28,9 @@ const eventSchema = Joi.object({
   joinLimit: Joi.number().required().messages({
     'string.empty': 'Joinlimit is required',
   }),
-  categoryId: Joi.string()
+  categoryId: Joi.number()
     .required()
-    .pattern(/^[0-9]{1,}$/)
+    // .pattern(/^[0-9]{1,}$/)
     .messages({ 'string.empty': 'Category is required' }),
   // userId: Joi.messages({ 'string.empty': 'Category is required' }),
 });

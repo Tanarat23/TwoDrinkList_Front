@@ -35,11 +35,14 @@ export default function RegisterForm() {
 
   const handleSubmitForm = async (e) => {
     try {
+      // Protect refresh
       e.preventDefault();
+      // ตรวจสอบข้อมูลที่กรอกเข้ามาว่าถูกต้องหรือไม่
       const error = validateRegister(input);
       if (error) {
         return setInputError(error);
       }
+      // รีเซ็ตค่า error
       setInputError({ ...initialInputError });
       const res = await authApi.register(input);
       console.log(res);
@@ -47,6 +50,7 @@ export default function RegisterForm() {
       navigate('/login');
     } catch (err) {
       console.log(err);
+      // ตรวจสอบว่าข้อผิดพลาดเป็น AxiosError
       if (err instanceof AxiosError) {
         if (err.response.data.field === 'userName')
           setInputError((prev) => ({

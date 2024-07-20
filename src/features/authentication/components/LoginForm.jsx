@@ -25,20 +25,24 @@ export default function LoginForm() {
   const { login } = useAuth();
   const navigate = useNavigate();
 
+  // ####### Manage value from tag <Input/> #######
   const handleChangeInput = (e) => {
     setInput({ ...input, [e.target.name]: e.target.value });
   };
 
+  // ####### Manage after click submmit form from tag <form/> #######
   const handleSubmitForm = async (e) => {
     try {
+      // Protect refresh page
       e.preventDefault();
       const error = validateLogin(input);
       if (error) {
         return setInputError(error);
       }
-
       setInputError(initialInputError);
       console.log(input);
+
+      // Connect server
       await login(input);
 
       navigate('/');
@@ -46,6 +50,7 @@ export default function LoginForm() {
     } catch (err) {
       console.log(err);
 
+      // ตรวจสอบว่าข้อผิดพลาดนั้นเป็น AxiosError หรือไม่
       if (err instanceof AxiosError) {
         const message =
           err.response.status === 400
